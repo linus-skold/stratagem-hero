@@ -261,46 +261,6 @@ const stratagems = [
   }
 ]
 
-const currentInput = [];
-
-let currentStratagem;
-const setStratagem = () => {
-  const stratagem = stratagems[Math.floor(Math.random() * stratagems.length)];
-  currentStratagem = stratagem;
-  return stratagem
-}
-
-const resetInput = () => {
-  currentInput.length = 0;
-}
-
-
-const checkSequence = (sequence) => { 
-  if (currentInput.length <= sequence.length) {
-    console.log(currentInput, sequence)
-    for (let i = 0; i < currentInput.length; i++) {
-      // console.log(currentInput[i] === sequence[i])
-      const res = currentInput[i] === sequence[i]
-
-      if (!res) {
-        resetInput();
-        return false;
-      } else if(currentInput.length === sequence.length) {
-        resetInput();
-        return true;
-      }
-    }  
-  } 
-}
-
-
-addEventListener("keydown", (event) => {
-  if (event.isComposing || event.code === 229) {
-      return;
-  }
-  keypress(event.code);
-});
-
 
 let onWinCallback;
 const registerOnWin = (cb) => {
@@ -317,6 +277,60 @@ let onStartCallback;
 const registerOnStart = (cb) => {
   onStartCallback = cb;
 }
+
+let onStreakCallback;
+const registerOnStreak = (cb) => {
+  onStreakCallback = cb;
+}
+
+let currentInput = [];
+
+let streak = 0;
+
+let currentStratagem;
+const setStratagem = () => {
+  const stratagem = stratagems[Math.floor(Math.random() * stratagems.length)];
+  currentStratagem = stratagem;
+  return stratagem
+}
+
+const resetInput = () => {
+  currentInput = []
+}
+
+
+const checkSequence = (sequence) => { 
+  const asList = Array.from(sequence)
+  if (currentInput.length <= asList.length) {
+    for (let i = 0; i < currentInput.length; i++) {
+      const res = currentInput[i] === asList[i]
+      console.log(res)
+      if (!res) {
+        
+        resetInput();
+        streak = 0;
+        onStreakCallback();
+        return false;
+      } 
+    } 
+
+    if(currentInput.length === asList.length) {
+      resetInput();
+      streak++;
+      onStreakCallback();
+      return true;
+    }
+  } 
+}
+
+
+addEventListener("keydown", (event) => {
+  if (event.isComposing || event.code === 229) {
+      return;
+  }
+  keypress(event.code);
+});
+
 
 
 const running = false;
@@ -351,4 +365,8 @@ const keypress = (key) => {
   } else {
     // onLoseCallback();
   }
+}
+
+const getStreak = () => { 
+  return streak;
 }

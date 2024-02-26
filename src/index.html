@@ -10,6 +10,7 @@
     <h1 class="title">STRATAGEM HERO</h1>
 
     <div class="interactable-center-container" id="interactable-center-container">
+        <h2 class="stratagem" id="streak">placeholder</h2>
         <h2 class="stratagem" id="stratagem">placeholder</h2>
         <table class="arrows-table" id="arrows-container">
             <tr id="arrows-row">
@@ -61,6 +62,12 @@
 
   registerOnStart(() => {
     newStratagem();
+  })
+
+  registerOnStreak(() => {
+    const template = Handlebars.compile("<h2 class='stratagem' id='streak'>{{streak}}</h2>")
+    var source = document.getElementById("streak").innerHTML;
+    document.getElementById("streak").innerHTML = template({streak: getStreak()});
   })
 
 
