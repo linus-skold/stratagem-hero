@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+
+<head>
+    <title> Stratagem Hero</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oxanium">
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+<body>
+    <h1 class="title">STRATAGEM HERO</h1>
+
+    <div class="interactable-center-container" id="interactable-center-container">
+        <h2 class="stratagem" id="stratagem">placeholder</h2>
+        <table class="arrows-table" id="arrows-container">
+            <tr id="arrows-row">
+            </tr>
+        </table>
+
+        <div class="timer-container">
+            <div id="timer-bar"></div>
+        </div>
+    </div>
+
+    <div class="game-over-popup" id="game-over-popup" hidden="hidden">
+        <h1 class="title" id="score-readout">SCORE: ##</h1>
+      
+        <button onclick="window.location.reload()" id="refresh-button">
+            RESTART
+        </button>
+    </div>
+</body>
+
+<script type="text/javascript" src="./data/stratagems.json"></script>
+<script type="text/javascript" src="./index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+
+<script>
+  const template = Handlebars.compile("<h2 class='stratagem' id='stratagem'>{{stratagem}}</h2>")
+  var source = document.getElementById("stratagem").innerHTML;
+
+  const newStratagem = () => {
+    const current = setStratagem();
+    document.getElementById("stratagem").innerHTML = template({stratagem: current.name});
+    
+    const arrowImages = { 8:"data/images/arrow_u.png", 2:"data/images/arrow_d.png", 4: "data/images/arrow_l.png", 6:"data/images/arrow_r.png" };
+    const arrowTemplate = Handlebars.compile("<img class='arrow-image' src='{{arrow}}'>")
+    var arrowSource = document.getElementById("arrows-row").innerHTML;
+    let arrows = current.sequence;
+
+    document.getElementById("arrows-row").innerHTML = ""
+    for (let i = 0; i < arrows.length; i++) {
+      let arrow = arrows[i];
+      let arrowImage = arrowTemplate({arrow: arrowImages[arrow]});
+      document.getElementById("arrows-row").innerHTML += arrowImage;
+    }
+  }
+
+  registerOnWin(() => {
+    newStratagem();
+  })
+
+  registerOnStart(() => {
+    newStratagem();
+  })
+
+
+</script>

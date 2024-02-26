@@ -1,0 +1,118 @@
+
+@font-face {
+  font-family: arcade;
+  src: url('./data/ARCADE_N.TTF');
+}
+
+body {
+  width: 99%;
+  height: 100%;
+  background-color: black;
+}
+
+.interactable-center-container {
+  top: 50%;
+  margin: auto;
+  width: 100%;
+}
+
+.logo-container {
+  margin: auto;
+  width: 50%;
+}
+
+.logo {
+  margin: auto;
+  width: 100%;
+}
+
+.title {
+  color: #FFE900;
+  font-family: arcade, sans-serif;
+  width: 50%;
+  margin: auto;
+  text-align: center;
+}
+
+.stratagem {
+  color: white;
+  font-family: Oxanium, sans-serif;
+  width: 50%;
+  margin: auto;
+  padding-top: 10px;
+  text-align: center;
+}
+
+.stratagems-table {
+  margin-left: 47.8%;
+  align-items: center;
+}
+
+.stratagem-icon {
+  display: block;
+  margin: auto;
+}
+
+#stratagem-icon-0 {
+  opacity: 100%;
+}
+
+#stratagem-icon-1 {
+  opacity: 50%;
+}
+
+#stratagem-icon-2 {
+  opacity: 25%;
+}
+
+#stratagem-icon-3 {
+  opacity: 12.5%;
+}
+
+.arrows-table {
+  margin: auto;
+  align-items: center;
+}
+
+.arrow-image {
+  margin: auto;
+}
+
+.arrow-incomplete-filter {
+  filter: brightness(0.25);
+}
+
+.timer-container {
+  width: 50%;
+  background-color: black;
+  margin: auto;
+}
+
+#timer-bar {
+  height: 20px;
+  background-color: #FFE900;
+  margin: auto;
+}
+
+.game-over-popup {
+  margin: auto;
+  width: 40%;
+  border-top-left-radius: 5%;
+  border-bottom-right-radius: 5%;
+  background-color: #5c5400;
+  z-index: 10;
+  padding-bottom: 20px;
+}
+
+#refresh-button {
+  background-color: #ad9f00;
+  border: 1px white;
+  color: #FFE900;
+  font-family: Oxanium, sans-serif;
+  font-size: 1.7em;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  margin: auto;
+}
