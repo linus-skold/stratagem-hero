@@ -11,11 +11,6 @@ body {
   color: white;
 }
 
-.interactable-center-container {
-  top: 50%;
-  margin: auto;
-  width: 100%;
-}
 
 .logo-container {
   margin: auto;
@@ -44,32 +39,6 @@ body {
   text-align: center;
 }
 
-.stratagems-table {
-  margin-left: 47.8%;
-  align-items: center;
-}
-
-.stratagem-icon {
-  display: block;
-  margin: auto;
-}
-
-#stratagem-icon-0 {
-  opacity: 100%;
-}
-
-#stratagem-icon-1 {
-  opacity: 50%;
-}
-
-#stratagem-icon-2 {
-  opacity: 25%;
-}
-
-#stratagem-icon-3 {
-  opacity: 12.5%;
-}
-
 .arrows-table {
   margin: auto;
   align-items: center;
@@ -77,10 +46,6 @@ body {
 
 .arrow-image {
   margin: auto;
-}
-
-.arrow-done-filter {
-  filter: hue-rotate(100deg)
 }
 
 .timer-container {
