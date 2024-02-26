@@ -283,6 +283,12 @@ const registerOnStreak = (cb) => {
   onStreakCallback = cb;
 }
 
+let onKeyDownCallback;
+const registerOnKeyDown = (cb) => {
+  onKeyDownCallback = cb;
+}
+
+
 let currentInput = [];
 
 let streak = 0;
@@ -304,7 +310,6 @@ const checkSequence = (sequence) => {
   if (currentInput.length <= asList.length) {
     for (let i = 0; i < currentInput.length; i++) {
       const res = currentInput[i] === asList[i]
-      console.log(res)
       if (!res) {
         
         resetInput();
@@ -333,9 +338,15 @@ addEventListener("keydown", (event) => {
 
 
 
-const running = false;
-
+let running = false;
 const keypress = (key) => {
+  if(!running) {
+    onStartCallback();
+    running = true;
+  }
+
+
+
   switch (key) {
     case "KeyW":
     case "ArrowUp":
@@ -357,7 +368,6 @@ const keypress = (key) => {
       onStartCallback();
     return;
   }
-
   
   const res = checkSequence(currentStratagem.sequence)
   if(res) { 
@@ -365,6 +375,7 @@ const keypress = (key) => {
   } else {
     // onLoseCallback();
   }
+  onKeyDownCallback(currentStratagem, currentInput);
 }
 
 const getStreak = () => { 

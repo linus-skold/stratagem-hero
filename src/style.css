@@ -8,6 +8,7 @@ body {
   width: 99%;
   height: 100%;
   background-color: black;
+  color: white;
 }
 
 .interactable-center-container {
@@ -78,8 +79,8 @@ body {
   margin: auto;
 }
 
-.arrow-incomplete-filter {
-  filter: brightness(0.25);
+.arrow-done-filter {
+  filter: hue-rotate(100deg)
 }
 
 .timer-container {
@@ -94,25 +95,24 @@ body {
   margin: auto;
 }
 
-.game-over-popup {
-  margin: auto;
-  width: 40%;
-  border-top-left-radius: 5%;
-  border-bottom-right-radius: 5%;
-  background-color: #5c5400;
-  z-index: 10;
-  padding-bottom: 20px;
+#logo {
+  width: 50%;
+  display: block
 }
 
-#refresh-button {
-  background-color: #ad9f00;
-  border: 1px white;
-  color: #FFE900;
-  font-family: Oxanium, sans-serif;
-  font-size: 1.7em;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: block;
+#logo-container { 
+  width: 30%;
   margin: auto;
+  justify-content: center;
+
+}
+
+.footer { 
+  position: absolute;
+  bottom: 0;
+  width: 95%;
+  text-align: center;
+  padding: 10px;
+  font-family: Oxanium, sans-serif;
+  color: #FFE900;
 }

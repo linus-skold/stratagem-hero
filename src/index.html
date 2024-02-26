@@ -7,11 +7,14 @@
   </head>
 
 <body>
+  <div class="logo-container">
+    <img src="data/images/Helldivers_2.webp" class="logo" id="logo"/>
+  </div>
     <h1 class="title">STRATAGEM HERO</h1>
 
     <div class="interactable-center-container" id="interactable-center-container">
-        <h2 class="stratagem" id="streak">placeholder</h2>
-        <h2 class="stratagem" id="stratagem">placeholder</h2>
+        <h2 class="stratagem" id="streak">0</h2>
+        <h2 class="stratagem" id="stratagem">Press any key to start</h2>
         <table class="arrows-table" id="arrows-container">
             <tr id="arrows-row">
             </tr>
@@ -22,16 +25,14 @@
         </div>
     </div>
 
-    <div class="game-over-popup" id="game-over-popup" hidden="hidden">
-        <h1 class="title" id="score-readout">SCORE: ##</h1>
-      
-        <button onclick="window.location.reload()" id="refresh-button">
-            RESTART
-        </button>
+    <div class="footer">
+      <p>This is not an official Helldivers 2 website and I am not in any way affiliated with Arrowhead, Helldivers 2, Sony, Playstation or Playstation Studios</p>  
+      <p>Made by <a href="https://github.com/linus-skold">Linus Sköld</a></p>
+      <p>Check out the source code <a href="https://github.com/linus-skold/stratagem-hero">here</a></p>
+        
     </div>
 </body>
 
-<script type="text/javascript" src="./data/stratagems.json"></script>
 <script type="text/javascript" src="./index.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 
@@ -39,21 +40,30 @@
   const template = Handlebars.compile("<h2 class='stratagem' id='stratagem'>{{stratagem}}</h2>")
   var source = document.getElementById("stratagem").innerHTML;
 
-  const newStratagem = () => {
-    const current = setStratagem();
-    document.getElementById("stratagem").innerHTML = template({stratagem: current.name});
-    
+  const drawArrows = (arrows, finished) => {
     const arrowImages = { 8:"data/images/arrow_u.png", 2:"data/images/arrow_d.png", 4: "data/images/arrow_l.png", 6:"data/images/arrow_r.png" };
+    const arrowDoneImages = { 8:"data/images/arrow_u_col.png", 2:"data/images/arrow_d_col.png", 4: "data/images/arrow_l_col.png", 6:"data/images/arrow_r_col.png" };
     const arrowTemplate = Handlebars.compile("<img class='arrow-image' src='{{arrow}}'>")
+    const arrowDoneTemplate = Handlebars.compile("<img class='arrow-image' src='{{arrow}}'>")
     var arrowSource = document.getElementById("arrows-row").innerHTML;
-    let arrows = current.sequence;
-
     document.getElementById("arrows-row").innerHTML = ""
     for (let i = 0; i < arrows.length; i++) {
       let arrow = arrows[i];
-      let arrowImage = arrowTemplate({arrow: arrowImages[arrow]});
-      document.getElementById("arrows-row").innerHTML += arrowImage;
+      if(i < finished) {
+        let arrowImage = arrowDoneTemplate({arrow: arrowDoneImages[arrow]});
+        document.getElementById("arrows-row").innerHTML += arrowImage;
+      } else {
+        let arrowImage = arrowTemplate({arrow: arrowImages[arrow]});
+        document.getElementById("arrows-row").innerHTML += arrowImage;
+      }
     }
+  }
+
+  const newStratagem = () => {
+    const current = setStratagem();
+    console.log(current)
+    document.getElementById("stratagem").innerHTML = template({stratagem: current.name});
+    drawArrows(current.sequence, 0);
   }
 
   registerOnWin(() => {
@@ -62,6 +72,10 @@
 
   registerOnStart(() => {
     newStratagem();
+  })
+
+  registerOnKeyDown((sequence, currentInputs) => {
+    drawArrows(sequence.sequence, currentInputs.length);
   })
 
   registerOnStreak(() => {
