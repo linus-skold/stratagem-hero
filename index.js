@@ -261,6 +261,9 @@ const stratagems = [
   }
 ]
 
+const totalTime = 10 * 1000;
+const stepSize = 10;
+let timeLeft = totalTime;
 
 let onWinCallback;
 const registerOnWin = (cb) => {
@@ -269,7 +272,7 @@ const registerOnWin = (cb) => {
 
 let onLoseCallback;
 const registerOnLose = (cb) => {
-  OnLoseCallback = cb;
+  onLoseCallback = cb;
 }
 
 
@@ -288,10 +291,19 @@ const registerOnKeyDown = (cb) => {
   onKeyDownCallback = cb;
 }
 
-
 let currentInput = [];
-
+let bestStreak = 0;
 let streak = 0;
+let lastTime = Date.now();
+let running = false;
+
+const restart = () => {
+  lastTime = Date.now();
+  timeLeft = totalTime;
+  resetInput();
+  streak = 0;
+}
+
 
 let currentStratagem;
 const setStratagem = () => {
@@ -322,6 +334,9 @@ const checkSequence = (sequence) => {
     if(currentInput.length === asList.length) {
       resetInput();
       streak++;
+      if(streak > bestStreak) {
+        bestStreak = streak;
+      }
       onStreakCallback();
       return true;
     }
@@ -336,16 +351,39 @@ addEventListener("keydown", (event) => {
   keypress(event.code);
 });
 
+let timeout;
+const tick = () => {
+  const now = Date.now();
+  const delta = now - lastTime;
+  lastTime = now;
+  timeLeft -= delta;
+  
+  if(timeLeft <= 0) {
+    onLoseCallback(bestStreak);
+    clearTimeout(timeout);
+    running = false;
+  }
+
+  timeout = setTimeout(() => {
+    tick();
+  }, stepSize);
+  updateTimer();
+}
 
 
-let running = false;
+function updateTimer(){
+  let bar = document.getElementById("timer-bar");  
+  const width = ((timeLeft/totalTime) * 100);
+  bar.style.width = `${width}%`;   
+}
+
+
 const keypress = (key) => {
   if(!running) {
+    restart();
     onStartCallback();
     running = true;
   }
-
-
 
   switch (key) {
     case "KeyW":
@@ -365,16 +403,13 @@ const keypress = (key) => {
       currentInput.push("6");
     break;
     default: 
-      onStartCallback();
     return;
   }
   
   const res = checkSequence(currentStratagem.sequence)
   if(res) { 
     onWinCallback();
-  } else {
-    // onLoseCallback();
-  }
+  } 
   onKeyDownCallback(currentStratagem, currentInput);
 }
 

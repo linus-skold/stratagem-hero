@@ -59,28 +59,34 @@
 
   const newStratagem = () => {
     const current = setStratagem();
-    console.log(current)
     document.getElementById("stratagem").innerHTML = template({stratagem: current.name});
     drawArrows(current.sequence, 0);
   }
 
   registerOnWin(() => {
     newStratagem();
+    timeLeft += 1000 * (getStreak() / 10 + 1);
   })
 
   registerOnStart(() => {
     newStratagem();
+    document.getElementById("timer-bar").style.width = "100%";
+    tick();
   })
 
   registerOnKeyDown((sequence, currentInputs) => {
     drawArrows(sequence.sequence, currentInputs.length);
   })
-
+  
   registerOnStreak(() => {
     const template = Handlebars.compile("<h2 class='stratagem' id='streak'>{{streak}}</h2>")
     var source = document.getElementById("streak").innerHTML;
     document.getElementById("streak").innerHTML = template({streak: getStreak()});
   })
 
+  registerOnLose((bestStreak) => {
+    document.getElementById("stratagem").innerHTML = "You lost!<br>Best streak: " + bestStreak;
+    document.getElementById("arrows-row").innerHTML = "";
+  });
 
 </script>
